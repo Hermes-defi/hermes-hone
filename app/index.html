@@ -9,153 +9,36 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/3.0.0-rc.5/web3.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="abi.js"></script>
+    <script src="main.js"></script>
 
     <script>
-        let web3, account;
+        // web3 functions to operate on blockchain (connected to metamask)
+        let web3;
+
+        // first user address connected, ie, wallet address
+        let account;
+
+        // contract object to make calls
         let contract;
-        async function accountLoad() {
-            if (window.ethereum) {
-                const r = await window.ethereum.request({method: 'eth_requestAccounts'});
-                web3 = new Web3(window.ethereum);
-                account = r[0];
-                return true;
-            }
-            return false;
-        }
-
-        async function main(){
-            const enabled = await accountLoad();
-            if( enabled ){
-                $('#account').val(account);
-                initContract();
-            }else{
-                $('#ethEnabled').html('no')
-            }
-        }
-        async function initContract(){
-            const jsonInterface = [
-                {"inputs": [{"internalType": "address", "name": "owner", "type": "address"}], "name": "balanceOf", "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}], "stateMutability": "view", "type": "function"},
-                {"inputs": [], "name": "deposit", "outputs": [], "stateMutability": "payable", "type": "function"},
-                {"inputs": [{"internalType": "uint256", "name": "_share", "type": "uint256"}], "name": "unstake", "outputs": [], "stateMutability": "nonpayable", "type": "function"},
-                {"inputs": [{"internalType": "address", "name": "", "type": "address"}], "name": "_staked", "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}], "stateMutability": "view", "type": "function"},
-                {"inputs": [{"internalType": "address", "name": "", "type": "address"}], "name": "_stakedIn", "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}], "stateMutability": "view", "type": "function"},
-                {"inputs": [], "name": "withdrawTimestamp", "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}], "stateMutability": "view", "type": "function"},
-                {"inputs": [{"internalType": "address", "name": "user", "type": "address"}, {"internalType": "uint256", "name": "_balance", "type": "uint256"}], "name": "canWithdraw", "outputs": [{"internalType": "bool", "name": "allowedToWithdraw", "type": "bool"}, {"internalType": "string", "name": "Reason", "type": "string"}], "stateMutability": "view", "type": "function"},
-                {"inputs": [{"internalType": "uint256", "name": "_amount", "type": "uint256"}], "name": "withdraw", "outputs": [], "stateMutability": "nonpayable", "type": "function"}
-            ];
-            contract = new web3.eth.Contract(jsonInterface, $('#contract').val() );
-            balanceOf(account);
-        }
-        async function balanceOf(address){
-            try {
-                const amount = await contract.methods.balanceOf(address).call();
-                const _staked = await contract.methods._staked(address).call();
-                const _stakedIn = await contract.methods._stakedIn(address).call();
-                const value = amount / 1e18;
-                const staked = _staked / 1e18;
-                const stakedIn = parseInt(_stakedIn);
-
-                $('#balanceOf').html(value);
-                $('#staked').html(staked);
-                $('#staked1').html(staked);
-                $('#unstakeAmount').val(value);
-                if( stakedIn > 0 ){
-                    const withdrawTimestamp = parseInt( await contract.methods.withdrawTimestamp().call() );
-                    const now = parseInt(new Date().getTime()/1000);
-                    const ttl = (stakedIn+withdrawTimestamp) - now;
-                    const unstakeInfo = ttl > 0 ? toHHMMSS(ttl) : 'available';
-                    $('#stakedIn').html( unstakeInfo );
-                    $('#stakedIn1').html( unstakeInfo );
-                    $('#withdraw').val(staked);
-
-                    const canWithdraw = await contract.methods.canWithdraw(account, staked).call();
-                    console.log(canWithdraw.allowedToWithdraw);
-                    console.log(canWithdraw.Reason);
-                    $('#withdrawBtn').prop('disabled', ! canWithdraw.allowedToWithdraw);
-                    $('#withdrawInfo').html(canWithdraw.Reason);
-
-                }else{
-                    $('#stakedIn').html('?');
-                    $('#stakedIn1').html('?');
-                    $('#withdraw').val('0');
-                }
-
-            } catch (e) {
-                console.log(e);
-            }
-        }
-        async function stake(amount){
-            const value = amount * 1e18;
-            try {
-                await contract.methods.deposit().estimateGas({from: account, value: value},
-                    async function(error, gasAmount){
-                        if( error ){
-                            alert( error.toString() );
-                        }else{
-                            await contract.methods.deposit().send({from: account, value: value});
-                            await balanceOf(account);
-                        }
-                    });
-            } catch (e) {
-                alert(e.toString());
-            }
-        }
-        async function unstake(_share){
-            const value = parseInt(_share * 1e18).toString();
-            try {
-                await contract.methods.unstake(value).estimateGas({from: account},
-                    async function(error, gasAmount){
-                        if( error ){
-                            alert( error.toString() );
-                        }else{
-                            await contract.methods.unstake(value).send({from: account});
-                            await balanceOf(account);
-                        }
-                    });
-            } catch (e) {
-                alert(e.toString());
-            }
-        }
-
-        async function withdraw(_share){
-            const value = parseInt(_share * 1e18).toString();
-            try {
-                await contract.methods.withdraw(value).estimateGas({from: account},
-                    async function(error, gasAmount){
-                        if( error ){
-                            alert( error.toString() );
-                        }else{
-                            await contract.methods.withdraw(value).send({from: account});
-                            await balanceOf(account);
-                        }
-                    });
-            } catch (e) {
-                alert(e.toString());
-            }
-        }
-
-        function toHHMMSS (str) {
-            let sec_num = parseInt(str, 10); // don't forget the second param
-            let hours   = Math.floor(sec_num / 3600);
-            let minutes = Math.floor((sec_num - (hours * 3600)) / 60);
-            let seconds = sec_num - (hours * 3600) - (minutes * 60);
-
-            if (hours   < 10) {hours   = "0"+hours;}
-            if (minutes < 10) {minutes = "0"+minutes;}
-            if (seconds < 10) {seconds = "0"+seconds;}
-            return hours+':'+minutes+':'+seconds;
-        }
-
     </script>
 
 </head>
 <body onload="main()">
 
-    <nav class="navbar navbar-light bg-light">
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">hONE</span>
-            <span class="navbar-brand mb-0 ">Hermes Staked ONE</span>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1">hONE</span>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" id="blockNumber">blockNumber</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="epoch">epoch</a>
+                </li>
+            </ul>
         </div>
+        <span class="navbar-brand mb-0 ">Hermes Staked ONE</span>
     </nav>
 
     <div class="container">
@@ -168,7 +51,8 @@
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                                Contract <input id="contract" size="45" type="text" value="0xfd5D64fa2E8F0bC28C8bd0ca8656fcC652cCAF2c"/>
+                                Contract <input id="contract" size="45" type="text"
+                                                value="0xC0e936D14c5a815642B1b7f342486716E3d6CE9e"/>
                             </li>
                             <li class="list-group-item">
                                 Wallet <input id="account" size="45" type="text"/>
@@ -268,11 +152,44 @@
             </div>
         </div>
 
+        <div class="row align-items-start p-3   ">
+            <div class="col">
+                <div class="card" >
+                    <div class="card-header">
+                        <h5 class="card-title">Deposits</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush" id="eventsDeposits">
+                            <li class="list-group-item">
+                                Carregando...
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" >
+                    <div class="card-header">
+                        <h5 class="card-title">Advance</h5>
+                    </div>
+                    <div class="card-body">
+
+                        <ul class="list-group list-group-flush" id="eventsAdvance">
+                            <li class="list-group-item">
+                                Aguarde...
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" onclick="advance(); return false;" class="btn btn-primary">call advance</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 </div>
 
-    <hr/>
     <div id="tx"></div>
-    <hr/>
-    <i>old contract: 0xfd5D64fa2E8F0bC28C8bd0ca8656fcC652cCAF2c</i>
+
 </body>
 </html>

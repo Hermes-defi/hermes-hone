@@ -34,18 +34,20 @@ async function initContract(){
 }
 async function showAPR(){
     const balance = await contract.methods.balance().call();
-    const reward = await contract.methods.rewardStatsLastReward().call();
+    const reward = web3.utils.fromWei(await contract.methods.rewardStatsLastReward().call());
     const interval = await contract.methods.rewardStatsTimeInterval().call();
     const bal = web3.utils.fromWei(balance);
     console.log(bal,reward,interval);
     if( reward > 0 && bal > 0 ){
         const apr = (reward/bal)*100;
-        const apy = apr * 12;
-        console.log('apr', apr, 'apy', apy);
-        $('#apr').html('APR: '+web3.utils.fromWei(apr) + '%');
-        $('#apy').html('APY: '+web3.utils.fromWei(apy) + '%');
+        const aprPerSec = apr;
+        const aprPerDay = aprPerSec*86400;
+        const apy = aprPerDay * 30 * 12;
+        console.log('apr', aprPerDay, 'apy', apy);
+        $('#apr').html('APR: '+aprPerDay.toFixed(4) + '%');
+        $('#apy').html('APY: '+apy + '%');
     }
-    $('#balance').html('balance: '+bal+' ONE');
+    $('#balance').html('balance: '+parseFloat(bal).toFixed(6)+' ONE');
 
 }
 async function showLastDeposits(){
@@ -121,7 +123,7 @@ async function showLastAdvances(){
 
 async function showLastCollectReward(){
     const lastBlock = await web3.eth.getBlockNumber();
-    const from = lastBlock - 1000;
+    const from = lastBlock - 1024;
     contract.getPastEvents('CollectReward', {fromBlock: from, toBlock: lastBlock},
         function(err, ev){
             console.log(err, ev);
@@ -134,7 +136,9 @@ async function showLastCollectReward(){
                     const e = ev[i];
                     const r = e.returnValues;
                     console.log(r);
-                    const reward = web3.utils.fromWei(r.rewardCollected);
+
+                    let reward = r.rewardCollected ? r.rewardCollected.toString() : '0';
+                        reward = web3.utils.fromWei(reward);
                     const ttl = r.rewardStatsTimeInterval;
                     const status = r.status;
                     //console.log(user, amount, status);

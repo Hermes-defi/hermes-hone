@@ -1469,12 +1469,14 @@ ERC20("Hermes Staked ONE", "hONE")
     uint public rewardStatsLastDeposit; // timestamp
     uint public rewardStatsLastReward; // uint256 1283838834
     uint public rewardStatsTimeInterval; // uint 19222
+    uint public rewardStatsBalance; // balance at this moment
     function collectRewards() internal returns (uint256) {
         uint256 balanceBefore = address(this).balance;
         uint256 status = _collectRewards();
         uint256 balanceAfter = address(this).balance;
         uint256 rewardCollected = balanceAfter - balanceBefore;
         totalRewardCollected += rewardCollected;
+        rewardStatsBalance = balance;
         balance += rewardCollected;
 
         if( rewardStatsLastDeposit > 0){

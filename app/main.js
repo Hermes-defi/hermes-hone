@@ -29,9 +29,23 @@ async function initContract(){
     balanceOf(account);
     showLastDeposits();
     showLastAdvances();
+    showLastCollectReward();
     showAPR();
 }
 async function showAPR(){
+    const balance = await contract.methods.balance().call();
+    const reward = await contract.methods.rewardStatsLastReward().call();
+    const interval = await contract.methods.rewardStatsTimeInterval().call();
+    const bal = web3.utils.fromWei(balance);
+    console.log(bal,reward,interval);
+    if( reward > 0 && bal > 0 ){
+        const apr = (reward/bal)*100;
+        const apy = apr * 12;
+        console.log('apr', apr, 'apy', apy);
+        $('#apr').html('APR: '+web3.utils.fromWei(apr) + '%');
+        $('#apy').html('APY: '+web3.utils.fromWei(apy) + '%');
+    }
+    $('#balance').html('balance: '+bal+' ONE');
 
 }
 async function showLastDeposits(){
@@ -100,6 +114,33 @@ async function showLastAdvances(){
                     html += '<li class="list-group-item">...'+user+','+reward+', '+incentive+', '+balance+'</li>'
                 }
                 $('#eventsAdvance').html(html);
+            }
+
+        });
+}
+
+async function showLastCollectReward(){
+    const lastBlock = await web3.eth.getBlockNumber();
+    const from = lastBlock - 1000;
+    contract.getPastEvents('CollectReward', {fromBlock: from, toBlock: lastBlock},
+        function(err, ev){
+            console.log(err, ev);
+            if(err){
+                console.error(err);
+            }else{
+                // console.log(ev);
+                let html = '';
+                for( let i in ev ){
+                    const e = ev[i];
+                    const r = e.returnValues;
+                    console.log(r);
+                    const reward = web3.utils.fromWei(r.rewardCollected);
+                    const ttl = r.rewardStatsTimeInterval;
+                    const status = r.status;
+                    //console.log(user, amount, status);
+                    html += '<li class="list-group-item">'+reward+', '+ttl+', '+status+'</li>'
+                }
+                $('#eventsCollectReward').html(html);
             }
 
         });

@@ -34,18 +34,23 @@ async function initContract(){
 }
 async function showAPR(){
     const balance = await contract.methods.balance().call();
-    const reward = web3.utils.fromWei(await contract.methods.rewardStatsLastReward().call());
+    const _reward = await contract.methods.rewardStatsLastReward().call();
     const interval = await contract.methods.rewardStatsTimeInterval().call();
     const bal = web3.utils.fromWei(balance);
-    console.log(bal,reward,interval);
-    if( reward > 0 && bal > 0 ){
-        const apr = (reward/bal)*100;
-        const aprPerSec = apr;
-        const aprPerDay = aprPerSec*86400;
-        const apy = aprPerDay * 30 * 12;
-        console.log('apr', aprPerDay, 'apy', apy);
-        $('#apr').html('APR: '+aprPerDay.toFixed(4) + '%');
-        $('#apy').html('APY: '+apy + '%');
+    if( _reward > 0 && bal > 0 ){
+        // just convert 1028928382382 to 1.02
+        const reward = web3.utils.fromWei(_reward);
+
+        // get reward per second
+        const aprPerSec = parseFloat(reward/interval).toFixed(18);
+
+        // get the reward in 30 days
+        const aprPerDay = aprPerSec * 89400 * 30;
+
+        // get % of 30 days and mul by 12 to get by year
+        const apr = (aprPerDay/bal)*100 * 12;
+        // console.log('apr', apr, 'seconds', interval, 'aprPerSec', aprPerSec);
+        $('#apr').html('APR: '+apr.toFixed(2) + '%');
     }
     $('#balance').html('balance: '+parseFloat(bal).toFixed(6)+' ONE');
 

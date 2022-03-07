@@ -20,7 +20,7 @@ Our implementation do the auto-compound of reward automatically and provide a wa
 
 The current ONE staking system is possible via a specific wallet, where users access a dashboard  and choose from a list of delegators from a true free market service system. Users tend to choose the most advantageous fee to maximize profit.
 
-In 01-11-2022 the Harmony team activated a hardfork where it became possible to do staking operations via assembly op-codes, allowing the creation of smart contracts that can stake/unstake on ONE network via any rpc wallet, like Metamask, for example.
+In 02-11-2022 the Harmony team activated a hardfork where it became possible to do staking operations via assembly op-codes, allowing the creation of smart contracts that can stake/unstake on ONE network via any rpc wallet, like Metamask, for example.
 
 With this in mind, the DevOps Hermes Team that operates the Hermes RPC public service and the Hermes Validator asked if it was possible to do our own staking implementation, immediately Marketing team asked if it was possible to add a second layer of reward on top One network reward.
 

@@ -74,7 +74,7 @@ async function showLastDeposits(){
                     const status = r.status;
                     const user = r.user.substr(r.user.length-4);
                     console.log(user, amount, status);
-                    html += '<li class="list-group-item">...'+user+' = '+amount+' ONE</li>'
+                    html += '<li class="list-group-item">...'+user+' = '+amount+' hONE</li>'
                 }
                 $('#eventsDeposits').html(html);
             }
@@ -140,14 +140,14 @@ async function showLastCollectReward(){
                 for( let i in ev ){
                     const e = ev[i];
                     const r = e.returnValues;
-                    console.log(r);
+                    console.log('CollectReward', r);
 
-                    let reward = r.rewardCollected ? r.rewardCollected.toString() : '0';
+                    let reward = r.reward ? r.reward.toString() : '0';
                         reward = web3.utils.fromWei(reward);
-                    const ttl = r.rewardStatsTimeInterval;
-                    const status = r.status;
+                    const ttl = r.interval;
+                    const status = r.status ? 'OK' : 'ERR';
                     //console.log(user, amount, status);
-                    html += '<li class="list-group-item">'+reward+', '+ttl+', '+status+'</li>'
+                    html += '<li class="list-group-item">'+reward+' ONE - '+toHHMMSS(ttl)+' '+status+'</li>'
                 }
                 $('#eventsCollectReward').html(html);
             }
@@ -177,7 +177,7 @@ async function balanceOf(address){
             $('#stakedIn1').html( unstakeInfo );
             $('#withdraw').val(staked);
 
-            const canWithdraw = await contract.methods.canWithdraw(account, staked).call();
+            const canWithdraw = await contract.methods.canWithdraw(account, _staked).call();
             console.log(canWithdraw.allowedToWithdraw);
             console.log(canWithdraw.Reason);
             $('#withdrawBtn').prop('disabled', ! canWithdraw.allowedToWithdraw);

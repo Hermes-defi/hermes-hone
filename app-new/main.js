@@ -33,16 +33,19 @@ async function initContract(){
     showAPR();
 }
 async function showAPR(){
-    const balance = await contract.methods.balance().call();
-    const _reward = await contract.methods.rewardStatsLastReward().call();
-    const interval = await contract.methods.rewardStatsTimeInterval().call();
-    const bal = web3.utils.fromWei(balance);
-    if( _reward > 0 && bal > 0 ){
+    const rewardStatsBalance = (await contract.methods.rewardStatsBalance().call()).toString();
+    const rewardStatsLastReward = (await contract.methods.rewardStatsLastReward().call()).toString();
+    const rewardStatsTimeInterval = (await contract.methods.rewardStatsTimeInterval().call()).toString();
+
+    const bal = web3.utils.fromWei(rewardStatsBalance);
+
+    console.log(rewardStatsLastReward, bal);
+    if( rewardStatsLastReward > 0 && bal > 0 ){
         // just convert 1028928382382 to 1.02
-        const reward = web3.utils.fromWei(_reward);
+        const reward = web3.utils.fromWei(rewardStatsLastReward);
 
         // get reward per second
-        const aprPerSec = parseFloat(reward/interval).toFixed(18);
+        const aprPerSec = parseFloat(reward/rewardStatsTimeInterval).toFixed(18);
 
         // get the reward in 30 days
         const aprPerDay = aprPerSec * 89400 * 30;

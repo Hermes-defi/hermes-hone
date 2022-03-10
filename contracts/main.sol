@@ -82,8 +82,8 @@ library Address {
      * _Available since v3.1._
      */
     function functionCall(address target, bytes memory data)
-    internal
-    returns (bytes memory)
+        internal
+        returns (bytes memory)
     {
         return functionCall(target, data, "Address: low-level call failed");
     }
@@ -119,12 +119,12 @@ library Address {
         uint256 value
     ) internal returns (bytes memory) {
         return
-        functionCallWithValue(
-            target,
-            data,
-            value,
-            "Address: low-level call with value failed"
-        );
+            functionCallWithValue(
+                target,
+                data,
+                value,
+                "Address: low-level call with value failed"
+            );
     }
 
     /**
@@ -158,16 +158,16 @@ library Address {
      * _Available since v3.3._
      */
     function functionStaticCall(address target, bytes memory data)
-    internal
-    view
-    returns (bytes memory)
+        internal
+        view
+        returns (bytes memory)
     {
         return
-        functionStaticCall(
-            target,
-            data,
-            "Address: low-level static call failed"
-        );
+            functionStaticCall(
+                target,
+                data,
+                "Address: low-level static call failed"
+            );
     }
 
     /**
@@ -194,15 +194,15 @@ library Address {
      * _Available since v3.4._
      */
     function functionDelegateCall(address target, bytes memory data)
-    internal
-    returns (bytes memory)
+        internal
+        returns (bytes memory)
     {
         return
-        functionDelegateCall(
-            target,
-            data,
-            "Address: low-level delegate call failed"
-        );
+            functionDelegateCall(
+                target,
+                data,
+                "Address: low-level delegate call failed"
+            );
     }
 
     /**
@@ -526,15 +526,15 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryAdd(uint256 a, uint256 b)
-    internal
-    pure
-    returns (bool, uint256)
+        internal
+        pure
+        returns (bool, uint256)
     {
-    unchecked {
-        uint256 c = a + b;
-        if (c < a) return (false, 0);
-        return (true, c);
-    }
+        unchecked {
+            uint256 c = a + b;
+            if (c < a) return (false, 0);
+            return (true, c);
+        }
     }
 
     /**
@@ -543,14 +543,14 @@ library SafeMath {
      * _Available since v3.4._
      */
     function trySub(uint256 a, uint256 b)
-    internal
-    pure
-    returns (bool, uint256)
+        internal
+        pure
+        returns (bool, uint256)
     {
-    unchecked {
-        if (b > a) return (false, 0);
-        return (true, a - b);
-    }
+        unchecked {
+            if (b > a) return (false, 0);
+            return (true, a - b);
+        }
     }
 
     /**
@@ -559,19 +559,19 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryMul(uint256 a, uint256 b)
-    internal
-    pure
-    returns (bool, uint256)
+        internal
+        pure
+        returns (bool, uint256)
     {
-    unchecked {
-        // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
-        // benefit is lost if 'b' is also tested.
-        // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
-        if (a == 0) return (true, 0);
-        uint256 c = a * b;
-        if (c / a != b) return (false, 0);
-        return (true, c);
-    }
+        unchecked {
+            // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
+            // benefit is lost if 'b' is also tested.
+            // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
+            if (a == 0) return (true, 0);
+            uint256 c = a * b;
+            if (c / a != b) return (false, 0);
+            return (true, c);
+        }
     }
 
     /**
@@ -580,14 +580,14 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryDiv(uint256 a, uint256 b)
-    internal
-    pure
-    returns (bool, uint256)
+        internal
+        pure
+        returns (bool, uint256)
     {
-    unchecked {
-        if (b == 0) return (false, 0);
-        return (true, a / b);
-    }
+        unchecked {
+            if (b == 0) return (false, 0);
+            return (true, a / b);
+        }
     }
 
     /**
@@ -596,14 +596,14 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryMod(uint256 a, uint256 b)
-    internal
-    pure
-    returns (bool, uint256)
+        internal
+        pure
+        returns (bool, uint256)
     {
-    unchecked {
-        if (b == 0) return (false, 0);
-        return (true, a % b);
-    }
+        unchecked {
+            if (b == 0) return (false, 0);
+            return (true, a % b);
+        }
     }
 
     /**
@@ -696,10 +696,10 @@ library SafeMath {
         uint256 b,
         string memory errorMessage
     ) internal pure returns (uint256) {
-    unchecked {
-        require(b <= a, errorMessage);
-        return a - b;
-    }
+        unchecked {
+            require(b <= a, errorMessage);
+            return a - b;
+        }
     }
 
     /**
@@ -719,10 +719,10 @@ library SafeMath {
         uint256 b,
         string memory errorMessage
     ) internal pure returns (uint256) {
-    unchecked {
-        require(b > 0, errorMessage);
-        return a / b;
-    }
+        unchecked {
+            require(b > 0, errorMessage);
+            return a / b;
+        }
     }
 
     /**
@@ -745,10 +745,10 @@ library SafeMath {
         uint256 b,
         string memory errorMessage
     ) internal pure returns (uint256) {
-    unchecked {
-        require(b > 0, errorMessage);
-        return a % b;
-    }
+        unchecked {
+            require(b > 0, errorMessage);
+            return a % b;
+        }
     }
 }
 
@@ -776,8 +776,8 @@ interface IERC20 {
      * Emits a {Transfer} event.
      */
     function transfer(address recipient, uint256 amount)
-    external
-    returns (bool);
+        external
+        returns (bool);
 
     /**
      * @dev Returns the remaining number of tokens that `spender` will be
@@ -787,9 +787,9 @@ interface IERC20 {
      * This value changes when {approve} or {transferFrom} are called.
      */
     function allowance(address owner, address spender)
-    external
-    view
-    returns (uint256);
+        external
+        view
+        returns (uint256);
 
     /**
      * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.
@@ -955,11 +955,11 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * @dev See {IERC20-balanceOf}.
      */
     function balanceOf(address account)
-    public
-    view
-    virtual
-    override
-    returns (uint256)
+        public
+        view
+        virtual
+        override
+        returns (uint256)
     {
         return _balances[account];
     }
@@ -973,10 +973,10 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * - the caller must have a balance of at least `amount`.
      */
     function transfer(address recipient, uint256 amount)
-    public
-    virtual
-    override
-    returns (bool)
+        public
+        virtual
+        override
+        returns (bool)
     {
         _transfer(_msgSender(), recipient, amount);
         return true;
@@ -986,11 +986,11 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * @dev See {IERC20-allowance}.
      */
     function allowance(address owner, address spender)
-    public
-    view
-    virtual
-    override
-    returns (uint256)
+        public
+        view
+        virtual
+        override
+        returns (uint256)
     {
         return _allowances[owner][spender];
     }
@@ -1003,10 +1003,10 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * - `spender` cannot be the zero address.
      */
     function approve(address spender, uint256 amount)
-    public
-    virtual
-    override
-    returns (bool)
+        public
+        virtual
+        override
+        returns (bool)
     {
         _approve(_msgSender(), spender, amount);
         return true;
@@ -1037,9 +1037,9 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
             currentAllowance >= amount,
             "ERC20: transfer amount exceeds allowance"
         );
-    unchecked {
-        _approve(sender, _msgSender(), currentAllowance - amount);
-    }
+        unchecked {
+            _approve(sender, _msgSender(), currentAllowance - amount);
+        }
 
         return true;
     }
@@ -1057,9 +1057,9 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * - `spender` cannot be the zero address.
      */
     function increaseAllowance(address spender, uint256 addedValue)
-    public
-    virtual
-    returns (bool)
+        public
+        virtual
+        returns (bool)
     {
         _approve(
             _msgSender(),
@@ -1084,18 +1084,18 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * `subtractedValue`.
      */
     function decreaseAllowance(address spender, uint256 subtractedValue)
-    public
-    virtual
-    returns (bool)
+        public
+        virtual
+        returns (bool)
     {
         uint256 currentAllowance = _allowances[_msgSender()][spender];
         require(
             currentAllowance >= subtractedValue,
             "ERC20: decreased allowance below zero"
         );
-    unchecked {
-        _approve(_msgSender(), spender, currentAllowance - subtractedValue);
-    }
+        unchecked {
+            _approve(_msgSender(), spender, currentAllowance - subtractedValue);
+        }
 
         return true;
     }
@@ -1129,9 +1129,9 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
             senderBalance >= amount,
             "ERC20: transfer amount exceeds balance"
         );
-    unchecked {
-        _balances[sender] = senderBalance - amount;
-    }
+        unchecked {
+            _balances[sender] = senderBalance - amount;
+        }
         _balances[recipient] += amount;
 
         emit Transfer(sender, recipient, amount);
@@ -1178,9 +1178,9 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 
         uint256 accountBalance = _balances[account];
         require(accountBalance >= amount, "ERC20: burn amount exceeds balance");
-    unchecked {
-        _balances[account] = accountBalance - amount;
-    }
+        unchecked {
+            _balances[account] = accountBalance - amount;
+        }
         _totalSupply -= amount;
 
         emit Transfer(account, address(0), amount);
@@ -1254,13 +1254,13 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
     ) internal virtual {}
 }
 
-    enum Directive {
-        CREATE_VALIDATOR, // unused
-        EDIT_VALIDATOR, // unused
-        DELEGATE,
-        UNDELEGATE,
-        COLLECT_REWARDS
-    }
+enum Directive {
+    CREATE_VALIDATOR, // unused
+    EDIT_VALIDATOR, // unused
+    DELEGATE,
+    UNDELEGATE,
+    COLLECT_REWARDS
+}
 
 abstract contract StakingPrecompilesSelectors {
     function Delegate(
@@ -1283,8 +1283,8 @@ abstract contract StakingPrecompilesSelectors {
 contract StakingPrecompiles {
     // call opcode to stake ONE
     function _delegate(address validatorAddress, uint256 amount)
-    internal
-    returns (uint256 result)
+        internal
+        returns (uint256 result)
     {
         bytes memory encodedInput = abi.encodeWithSelector(
             StakingPrecompilesSelectors.Delegate.selector,
@@ -1293,23 +1293,23 @@ contract StakingPrecompiles {
             amount
         );
         assembly {
-        // we estimate a gas consumption of 25k per precompile
+            // we estimate a gas consumption of 25k per precompile
             result := call(
-            25000,
-            0xfc,
-            0x0,
-            add(encodedInput, 32),
-            mload(encodedInput),
-            mload(0x40),
-            0x20
+                25000,
+                0xfc,
+                0x0,
+                add(encodedInput, 32),
+                mload(encodedInput),
+                mload(0x40),
+                0x20
             )
         }
     }
 
     // call opcode to unstake ONE
     function _undelegate(address validatorAddress, uint256 amount)
-    internal
-    returns (uint256 result)
+        internal
+        returns (uint256 result)
     {
         bytes memory encodedInput = abi.encodeWithSelector(
             StakingPrecompilesSelectors.Undelegate.selector,
@@ -1318,15 +1318,15 @@ contract StakingPrecompiles {
             amount
         );
         assembly {
-        // we estimate a gas consumption of 25k per precompile
+            // we estimate a gas consumption of 25k per precompile
             result := call(
-            25000,
-            0xfc,
-            0x0,
-            add(encodedInput, 32),
-            mload(encodedInput),
-            mload(0x40),
-            0x20
+                25000,
+                0xfc,
+                0x0,
+                add(encodedInput, 32),
+                mload(encodedInput),
+                mload(0x40),
+                0x20
             )
         }
     }
@@ -1338,15 +1338,15 @@ contract StakingPrecompiles {
             address(this)
         );
         assembly {
-        // we estimate a gas consumption of 25k per precompile
+            // we estimate a gas consumption of 25k per precompile
             result := call(
-            25000,
-            0xfc,
-            0x0,
-            add(encodedInput, 32),
-            mload(encodedInput),
-            mload(0x40),
-            0x20
+                25000,
+                0xfc,
+                0x0,
+                add(encodedInput, 32),
+                mload(encodedInput),
+                mload(0x40),
+                0x20
             )
         }
     }
@@ -1374,10 +1374,10 @@ interface IToken {
 }
 
 contract Main is
-Ownable,
-ReentrancyGuard,
-StakingPrecompiles,
-ERC20("Hermes Staked ONE", "hONE")
+    Ownable,
+    ReentrancyGuard,
+    StakingPrecompiles,
+    ERC20("Hermes Staked ONE", "hONE")
 {
     using SafeMath for uint256;
 
@@ -1397,7 +1397,8 @@ ERC20("Hermes Staked ONE", "hONE")
 
     // the validator address where ONE should be staked
     // address public validatorAddress = address(0xee0e4Cdc193367dd9482Ed4152444e1d8971a6B7); // hermes
-    address public validatorAddress = address(0x588e2cda52B02a85d9dc3d150778183E14A078e8); // I Bless The Rains
+    address public validatorAddress =
+        address(0x588e2cda52B02a85d9dc3d150778183E14A078e8); // I Bless The Rains
 
     address payable public feeAddress;
 
@@ -1409,7 +1410,12 @@ ERC20("Hermes Staked ONE", "hONE")
     event CollectReward(uint256 status, uint256 reward, uint256 interval);
     event Withdraw(address user, uint256 amount);
     event Unstake(address user, uint256 amount, uint256 shares, uint256 status);
-    event Deposit(address user, uint256 amount, address delegator, uint256 status);
+    event Deposit(
+        address user,
+        uint256 amount,
+        address delegator,
+        uint256 status
+    );
     event withdrawTimestampChanged(uint256 oldTimestamp, uint256 newTimestamp);
     event withdrawEpochsChanged(uint256 oldEpoch, uint256 newEpoch);
 
@@ -1466,10 +1472,11 @@ ERC20("Hermes Staked ONE", "hONE")
         withdrawEpochs = _value;
     }
 
-    uint public rewardStatsLastDeposit; // timestamp
-    uint public rewardStatsLastReward; // uint256 1283838834
-    uint public rewardStatsTimeInterval; // uint 19222
-    uint public rewardStatsBalance; // balance at this moment
+    uint256 public rewardStatsLastDeposit; // timestamp
+    uint256 public rewardStatsLastReward; // uint256 1283838834
+    uint256 public rewardStatsTimeInterval; // uint 19222
+    uint256 public rewardStatsBalance; // balance at this moment
+
     function collectRewards() internal returns (uint256) {
         uint256 balanceBefore = address(this).balance;
         uint256 status = _collectRewards();
@@ -1479,27 +1486,36 @@ ERC20("Hermes Staked ONE", "hONE")
         rewardStatsBalance = balance;
         balance += rewardCollected;
 
-        if( rewardStatsLastDeposit > 0){
-            rewardStatsTimeInterval = block.timestamp - rewardStatsLastDeposit;
+        if (block.timestamp - rewardStatsLastDeposit > 172800) {
+            if (rewardStatsLastDeposit > 0) {
+                rewardStatsTimeInterval =
+                    block.timestamp -
+                    rewardStatsLastDeposit;
+            }
+            rewardStatsLastDeposit = block.timestamp;
+            rewardStatsLastReward = rewardCollected;
         }
-        rewardStatsLastDeposit = block.timestamp;
-        rewardStatsLastReward = rewardCollected;
         emit CollectReward(status, rewardCollected, rewardStatsTimeInterval);
         return rewardCollected;
     }
 
     bool advanceEnabled = true;
-    uint advanceFee = 10; // 0.1%
-    event Advance(address user, uint reward, uint incentive, uint balance);
-    function advance() external {
+    uint256 advanceFee = 10; // 0.1%
+    event Advance(
+        address user,
+        uint256 reward,
+        uint256 incentive,
+        uint256 balance
+    );
 
+    function advance() external {
         // enabled by default, but can be disabled if we detect any abuse
         require(advanceEnabled, "!advanceEnabled");
-        uint reward = collectRewards();
-        if( reward == 0 ) return;
+        uint256 reward = collectRewards();
+        if (reward == 0) return;
 
         // compute incentive for calling this routine, should be 0.1%
-        uint incentive = reward * advanceFee / 10000;
+        uint256 incentive = (reward * advanceFee) / 10000;
 
         // debit from reward collected
         reward -= incentive;
@@ -1517,7 +1533,6 @@ ERC20("Hermes Staked ONE", "hONE")
         require(result > 0, "err delegation");
 
         emit Advance(msg.sender, reward, incentive, balance);
-
     }
 
     // Enter the staking. Pay some sONE. Earn some shares.
@@ -1592,17 +1607,17 @@ ERC20("Hermes Staked ONE", "hONE")
 
     // view to be used on interface to know if user can withdraw funds
     function canWithdraw(address user, uint256 _balance)
-    public
-    view
-    returns (bool allowedToWithdraw, string memory Reason)
+        public
+        view
+        returns (bool allowedToWithdraw, string memory Reason)
     {
         if (_balance > _staked[user])
             return (false, "User has insufficient balance un-staked.");
         if (_stakedIn[user] + withdrawTimestamp > block.timestamp)
             return (false, "Time has not passed");
         if (_stakedEpoch[user] + withdrawEpochs > epoch())
-        // TODO:timelock the epoch change?
-        // owner could frontrun transactions by changing epoch & withdrawing
+            // TODO:timelock the epoch change?
+            // owner could frontrun transactions by changing epoch & withdrawing
             return (false, "Epoch has not passed");
         if (_balance > address(this).balance)
             return (false, "Contract has no balance.");
@@ -1617,7 +1632,7 @@ ERC20("Hermes Staked ONE", "hONE")
     // ATTENTION: FOR TEST ENV ONLY, MUST BE REMOVED ON PRODUCTION
     function adminClaimAnyEther() external onlyOwner {
         (bool transferSuccess, ) = msg.sender.call{
-        value: address(this).balance
+            value: address(this).balance
         }("");
         require(transferSuccess, "Failed to send eth");
     }
@@ -1630,6 +1645,7 @@ ERC20("Hermes Staked ONE", "hONE")
     function updateAdvanceFee(uint256 _advanceFee) external onlyOwner {
         advanceFee = _advanceFee;
     }
+
     function updateEnableAdvance(bool _advance) external onlyOwner {
         advanceEnabled = _advance;
     }

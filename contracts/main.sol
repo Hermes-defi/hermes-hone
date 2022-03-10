@@ -1508,32 +1508,6 @@ contract Main is
         uint256 balance
     );
 
-    function advance() external {
-        // enabled by default, but can be disabled if we detect any abuse
-        require(advanceEnabled, "!advanceEnabled");
-        uint256 reward = collectRewards();
-        if (reward == 0) return;
-
-        // compute incentive for calling this routine, should be 0.1%
-        uint256 incentive = (reward * advanceFee) / 10000;
-
-        // debit from reward collected
-        reward -= incentive;
-
-        // as reward already added to balance, debit amount exiting from contract balance
-        balance -= incentive;
-
-        // debit from reward collected
-        totalRewardCollected -= incentive;
-        (bool success, ) = payable(msg.sender).call{value: incentive}("");
-        require(success, "err paying incentive");
-
-        // do the delegation compounding
-        uint256 result = _delegate(validatorAddress, reward);
-        require(result > 0, "err delegation");
-
-        emit Advance(msg.sender, reward, incentive, balance);
-    }
 
     // Enter the staking. Pay some sONE. Earn some shares.
     // Locks ONE and mints sONE
@@ -1627,19 +1601,6 @@ contract Main is
     // auxiliary method to all easy withdraw via interface
     function withdrawAll() external {
         withdraw(_staked[msg.sender]);
-    }
-
-    // ATTENTION: FOR TEST ENV ONLY, MUST BE REMOVED ON PRODUCTION
-    function adminClaimAnyEther() external onlyOwner {
-        (bool transferSuccess, ) = msg.sender.call{
-            value: address(this).balance
-        }("");
-        require(transferSuccess, "Failed to send eth");
-    }
-
-    // ATTENTION: FOR TEST ENV ONLY, MUST BE REMOVED ON PRODUCTION
-    function forceUndelegate(uint256 amount) external onlyOwner {
-        _undelegate(validatorAddress, amount);
     }
 
     function updateAdvanceFee(uint256 _advanceFee) external onlyOwner {

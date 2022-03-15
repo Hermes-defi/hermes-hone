@@ -1424,10 +1424,6 @@ contract Main is
         transferOwnership(_owner);
     }
 
-    receive() external payable {
-        deposit();
-    }
-
     modifier isMinimumDeposit(uint256 _amount) {
         require(
             _amount >= minDelegate,

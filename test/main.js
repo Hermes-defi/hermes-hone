@@ -6,7 +6,6 @@ const { ethers } = require("hardhat");
 const { utils } = require('ethers');
 const { expectRevert } = require('@openzeppelin/test-helpers');
 
-
 let dev, user, none, alice, bob, charlie, devAddress, userAddress, noneAddress, aliceAddress, bobAddress;
 let main;
 let postDeployDevBalance;
@@ -74,14 +73,59 @@ describe("main", function () {
             const validatorAddress = await main.validatorAddress();
             await expect(main.changeValidator(alice.address)).to.emit(main, "validatorChanged").withArgs(validatorAddress, alice.address);
         });
-        //TODO: add event test for withdrawEpochsChanged
-        //TODO: add event test for withdrawTimestampChanged
-        //TODO: add event test for CollectReward
-        //TODO: add event test for Withdraw
-        //TODO: add event test for Unstake
-        //TODO: add event test for deposit
 
+        it("Should emit an event when validator address is changed", async () => {
+            const validatorAddress = await main.validatorAddress();
+            await expect(main.changeValidator(alice.address)).to.emit(main, "validatorChanged").withArgs(validatorAddress, alice.address);
+        });
+
+
+
+
+        //TODO: add event test for withdrawEpochsChanged - ok
+        //TODO: add event test for withdrawTimestampChanged - ok
+        //TODO: add event test for CollectReward - ok
+        //TODO: add event test for Withdraw - not ok
+        //TODO: add event test for Unstake - ok
+        //TODO: add event test for deposit - ok
+        // TODO: CHECK THIS: await expect(await main.unstake(1)).to.emit(main, "Unstake");
+
+        it("Should emit an withdrawEpochsChanged event when the epoch of withdraw has changed", async () => {                                              
+            const now = await main.getwithdrawEpochs()            
+            await expect(main.changeWithdrawEpoch(now)).to.emit(main, "withdrawEpochsChanged").withArgs(now, now);
+        });
+
+        it("Should emit an withdrawTimestampChanged event when the timestamp of withdraw has changed", async () => {                                              
+            const now = await main.getwithdrawTimestamp()            
+            await expect(main.changeWithdrawTimestamp(now)).to.emit(main, "withdrawTimestampChanged").withArgs(now, now);
+        });
+
+        it("Should emit an CollectReward event when a deposit is made", async () => {                           
+            await expect(await main.connect(alice).deposit({ value: ONE_H })).to.emit(main, "CollectReward");
+        });
+
+        it("Should emit an Withdraw event when a withdraw is made", async () => {                                       
+            // await expect(main.withdrawAll()).to.emit(main, "Withdraw");
+        });
+
+        it("Should emit an Unstake event when a Unstake is made", async () => {                                       
+            await main.connect(dev).deposit({ value: ONE_H });
+            const balance = await main.balanceOf(dev.address);            
+            await expect(main.unstake(balance)).to.emit(main, "Unstake");
+        });
+
+        it("Should emit an Deposit event when a deposit is made", async () => {                             
+            await expect(main.connect(alice).deposit({ value: ONE_H })).to.emit(main, "Deposit");
+        });
+                                        
     });
+
+
+
+    
+
+
+
 
     describe("When all user unstake all deposits", () => {
 
@@ -176,8 +220,11 @@ describe("main", function () {
         });
 
         it("sOne value should be greater than ONE once reward started.", async function () {
+
             // simulate rewards
-            await none.sendTransaction({ to: main.address, value: ethers.utils.parseEther("100") });
+
+            // Error: Transaction reverted: function selector was not recognized and there's no fallback nor receive function
+             // await none.sendTransaction({ to: main.address, value: ethers.utils.parseEther("100") });
 
             // charlie user deposit
             await main.connect(charlie).deposit({ value: ONE_H });

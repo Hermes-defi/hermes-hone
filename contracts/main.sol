@@ -1432,6 +1432,23 @@ contract Main is
         _;
     }
 
+
+
+
+    function getwithdrawEpochs() public view returns(uint256) { 
+        return withdrawEpochs; 
+    }
+
+    function getwithdrawTimestamp() public view returns(uint256) { 
+        return withdrawTimestamp; 
+    }
+
+
+
+
+
+    
+
     function changeValidator(address newValidator) external onlyOwner {
         emit validatorChanged(validatorAddress, newValidator);
         validatorAddress = newValidator;
@@ -1461,7 +1478,7 @@ contract Main is
     function changeWithdrawTimestamp(uint256 _value) external onlyOwner {
         emit withdrawTimestampChanged(withdrawTimestamp, _value);
         withdrawTimestamp = _value;
-    }
+    }    
 
     function changeWithdrawEpoch(uint256 _value) external onlyOwner {
         emit withdrawEpochsChanged(withdrawEpochs, _value);

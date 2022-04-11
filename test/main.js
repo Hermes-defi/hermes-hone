@@ -74,17 +74,9 @@ describe("main", function () {
             const defaultValidator = await main.defaultValidator();
             await expect(main.changeValidator(alice.address)).to.emit(main, "validatorChanged").withArgs(defaultValidator, alice.address);
         });
-        //TODO: add event test for withdrawEpochsChanged
-        //TODO: add event test for withdrawTimestampChanged
-        //TODO: add event test for CollectReward
-        //TODO: add event test for Withdraw
-        //TODO: add event test for Unstake
-        //TODO: add event test for deposit
-
+       
         it("Should emit an withdrawEpochsChanged event when the epoch of withdraw has changed", async () => {                                              
             const now = await main.withdrawEpochs()
-
-            console.log('now ', now)
             await expect(main.changeWithdrawEpoch(now)).to.emit(main, "withdrawEpochsChanged").withArgs(now, now);
         });
 
@@ -116,6 +108,7 @@ describe("main", function () {
         it("Should emit an Advance event when a advance is called", async () => {    
             await expect(main.advance()).to.emit(main, "Advance");
         });
+           
            
 
     });

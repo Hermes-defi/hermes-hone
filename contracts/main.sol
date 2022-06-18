@@ -1738,8 +1738,36 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
     event validatorAdded(address validator);
 
     function setSafeElectionThreshold(uint value) public onlyOwner {
+
+        
+
         safeElectionThreshold = value;
     }
+
+    function getMaxFromAllDeposits() returns (uint256) {
+
+        uint256 max = 0;
+        uint lowestBalance = type(uint).max;        
+
+        for (uint i = 0; i < allValidators.length(); i++) {
+            address current = allValidators.at(i);
+
+            // this validator is not enabled
+            if (validatorsByAddress[current].isEnabled == false)
+                continue;
+
+            // validator deposit is high than current
+            if (validatorsByAddress[current].deposits >= lowestBalance)
+                continue;
+
+            // this validator has lowest possible balance
+            max.add(validatorsByAddress[current].deposits);
+        }
+
+        return max;
+
+    }
+
     function setSafeWithdrawThreshold(uint value) public onlyOwner {
         safeWithdrawThreshold = value;
     }
@@ -1775,13 +1803,17 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
     // we get the validator with lowest balance and lowest priority
     // in the queue if not, we default to standard validator
     function validatorLowestBalance() public view returns (address){
-        uint lowestBalance = 99999999999999999 ether;
+
+        // uint lowestBalance = 99999999999999999 ether;
+        uint lowestBalance = type(uint).max;
+
         address validator = defaultValidator;
         for (uint i = 0; i < allValidators.length(); i++) {
             address current = allValidators.at(i);
 
             // this validator is not enabled
-            if (validatorsByAddress[validator].isEnabled == false)
+            if (validatorsByAddress[current].isEnabled == false)
+
                 continue;
 
             // validator deposit is high than current
@@ -1805,7 +1837,7 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
             address current = allValidators.at(i);
 
             // this validator is not enabled
-            if (validatorsByAddress[validator].isEnabled == false)
+            if (validatorsByAddress[current].isEnabled == false)
                 continue;
 
             if (validatorsByAddress[current].deposits <= safeElectionThreshold)
@@ -1825,6 +1857,9 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
     function changeValidator(address newValidator) external onlyOwner {
         emit validatorChanged(defaultValidator, newValidator);
         defaultValidator = newValidator;
+        
+        _add(defaultValidator);
+        _set(defaultValidator, true);
     }
 
     function changeMinDelegate(uint256 _minDelegate) external onlyOwner {
@@ -2024,8 +2059,11 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
     {
         if (_balance > _staked[user])
             return (false, "User has insufficient balance un-staked.");
+
         if (_stakedIn[user] + withdrawTimestamp > block.timestamp)
             return (false, "Time has not passed");
+
+
         if (_stakedEpoch[user] + withdrawEpochs > epoch())
         // TODO:timelock the epoch change?
         // owner could frontrun transactions by changing epoch & withdrawing

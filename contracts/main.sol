@@ -1670,16 +1670,19 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
         address user;
         uint256 shares;
         uint256 deposited;
-        uint256 datetime;
+        uint256 datetime;        
+
     }
 
     mapping(address => DepositInfo[]) public validatorDeposits;
     mapping(address => uint) public balanceByAddress;
+    mapping(address => uint256) public withdrawTimestampAddress;    
 
     // waiting room, user request undelegate and with next epoch to withdraw
     mapping(address => uint256) public _staked;
     mapping(address => uint256) public _stakedIn;
     mapping(address => uint256) public _stakedEpoch;
+    
     uint256 public fee = 0; // 100=1%
     uint256 public totalRewardCollected;
     uint256 public totalFeeCollected;
@@ -1739,12 +1742,11 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
 
     function setSafeElectionThreshold(uint value) public onlyOwner {
 
-        
-
+        require(value < getMaxFromAllDeposits(), "cannot be greater than the maximum of validatorsByAddress[x].deposits");
         safeElectionThreshold = value;
     }
 
-    function getMaxFromAllDeposits() returns (uint256) {
+    function getMaxFromAllDeposits() internal view returns (uint256) {
 
         uint256 max = 0;
         uint lowestBalance = type(uint).max;        
@@ -1884,6 +1886,8 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
     }
 
     function changeWithdrawTimestamp(uint256 _value) external onlyOwner {
+        require(_value < 12960000, "invalid timestamp. limit exceeded"); // 300 hours
+
         emit withdrawTimestampChanged(withdrawTimestamp, _value);
         withdrawTimestamp = _value;
     }
@@ -1981,6 +1985,9 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
 
         address validator = validatorLowestBalance();
 
+        // Withdraw info
+        withdrawTimestampAddress[msg.sender] = withdrawTimestamp;
+
         // update validator metadata
         validatorsByAddress[validator].deposits += value;
         validatorsByAddress[validator].lastDepositAmount = value;
@@ -1992,11 +1999,11 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
         // store this deposit ticket
         validatorDeposits[validator].push(
             DepositInfo({
-        validator : validator,
-        user : msg.sender,
-        shares : shares,
-        deposited : value,
-        datetime : block.timestamp
+                validator : validator,
+                user : msg.sender,
+                shares : shares,
+                deposited : value,
+                datetime : block.timestamp
         }));
 
         // prevent trying to stake bellow min amount (because of fee, if any)
@@ -2057,10 +2064,17 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
     view
     returns (bool allowedToWithdraw, string memory Reason)
     {
+
+        uint256 withdrawTimestamp_ = withdrawTimestamp;
+
+        if(withdrawTimestampAddress[user] > 0)
+            withdrawTimestamp_ = withdrawTimestampAddress[user];
+
+
         if (_balance > _staked[user])
             return (false, "User has insufficient balance un-staked.");
 
-        if (_stakedIn[user] + withdrawTimestamp > block.timestamp)
+        if (_stakedIn[user] + withdrawTimestamp_ > block.timestamp)
             return (false, "Time has not passed");
 
 

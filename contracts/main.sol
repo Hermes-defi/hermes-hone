@@ -1687,7 +1687,7 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
     uint256 public totalRewardCollected;
     uint256 public totalFeeCollected;
     uint256 public minDelegate = 100 ether;
-    uint256 public withdrawTimestamp = 150 hours;
+    uint256 public withdrawTimestamp = 168 hours;
     uint256 public withdrawEpochs = 7;
 
     uint256 public rewardStatsLastDeposit; // timestamp
@@ -2071,11 +2071,6 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
         if (_stakedIn[user] + withdrawTimestamp_ > block.timestamp)
             return (false, "Time has not passed");
 
-
-        if (_stakedEpoch[user] + withdrawEpochs > epoch())
-        // TODO:timelock the epoch change?
-        // owner could frontrun transactions by changing epoch & withdrawing
-            return (false, "Epoch has not passed");
         if (_balance > address(this).balance)
             return (false, "Contract has no balance.");
         return (true, "Ok");

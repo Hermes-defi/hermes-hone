@@ -56,7 +56,7 @@ library Address {
             "Address: insufficient balance"
         );
 
-        (bool success, ) = recipient.call{value: amount}("");
+        (bool success,) = recipient.call{value : amount}("");
         require(
             success,
             "Address: unable to send value, recipient may have reverted"
@@ -82,8 +82,8 @@ library Address {
      * _Available since v3.1._
      */
     function functionCall(address target, bytes memory data)
-        internal
-        returns (bytes memory)
+    internal
+    returns (bytes memory)
     {
         return functionCall(target, data, "Address: low-level call failed");
     }
@@ -119,12 +119,12 @@ library Address {
         uint256 value
     ) internal returns (bytes memory) {
         return
-            functionCallWithValue(
-                target,
-                data,
-                value,
-                "Address: low-level call with value failed"
-            );
+        functionCallWithValue(
+            target,
+            data,
+            value,
+            "Address: low-level call with value failed"
+        );
     }
 
     /**
@@ -145,7 +145,7 @@ library Address {
         );
         require(isContract(target), "Address: call to non-contract");
 
-        (bool success, bytes memory returndata) = target.call{value: value}(
+        (bool success, bytes memory returndata) = target.call{value : value}(
             data
         );
         return verifyCallResult(success, returndata, errorMessage);
@@ -158,16 +158,16 @@ library Address {
      * _Available since v3.3._
      */
     function functionStaticCall(address target, bytes memory data)
-        internal
-        view
-        returns (bytes memory)
+    internal
+    view
+    returns (bytes memory)
     {
         return
-            functionStaticCall(
-                target,
-                data,
-                "Address: low-level static call failed"
-            );
+        functionStaticCall(
+            target,
+            data,
+            "Address: low-level static call failed"
+        );
     }
 
     /**
@@ -194,15 +194,15 @@ library Address {
      * _Available since v3.4._
      */
     function functionDelegateCall(address target, bytes memory data)
-        internal
-        returns (bytes memory)
+    internal
+    returns (bytes memory)
     {
         return
-            functionDelegateCall(
-                target,
-                data,
-                "Address: low-level delegate call failed"
-            );
+        functionDelegateCall(
+            target,
+            data,
+            "Address: low-level delegate call failed"
+        );
     }
 
     /**
@@ -526,15 +526,15 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryAdd(uint256 a, uint256 b)
-        internal
-        pure
-        returns (bool, uint256)
+    internal
+    pure
+    returns (bool, uint256)
     {
-        unchecked {
-            uint256 c = a + b;
-            if (c < a) return (false, 0);
-            return (true, c);
-        }
+    unchecked {
+        uint256 c = a + b;
+        if (c < a) return (false, 0);
+        return (true, c);
+    }
     }
 
     /**
@@ -543,14 +543,14 @@ library SafeMath {
      * _Available since v3.4._
      */
     function trySub(uint256 a, uint256 b)
-        internal
-        pure
-        returns (bool, uint256)
+    internal
+    pure
+    returns (bool, uint256)
     {
-        unchecked {
-            if (b > a) return (false, 0);
-            return (true, a - b);
-        }
+    unchecked {
+        if (b > a) return (false, 0);
+        return (true, a - b);
+    }
     }
 
     /**
@@ -559,19 +559,19 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryMul(uint256 a, uint256 b)
-        internal
-        pure
-        returns (bool, uint256)
+    internal
+    pure
+    returns (bool, uint256)
     {
-        unchecked {
-            // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
-            // benefit is lost if 'b' is also tested.
-            // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
-            if (a == 0) return (true, 0);
-            uint256 c = a * b;
-            if (c / a != b) return (false, 0);
-            return (true, c);
-        }
+    unchecked {
+        // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
+        // benefit is lost if 'b' is also tested.
+        // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
+        if (a == 0) return (true, 0);
+        uint256 c = a * b;
+        if (c / a != b) return (false, 0);
+        return (true, c);
+    }
     }
 
     /**
@@ -580,14 +580,14 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryDiv(uint256 a, uint256 b)
-        internal
-        pure
-        returns (bool, uint256)
+    internal
+    pure
+    returns (bool, uint256)
     {
-        unchecked {
-            if (b == 0) return (false, 0);
-            return (true, a / b);
-        }
+    unchecked {
+        if (b == 0) return (false, 0);
+        return (true, a / b);
+    }
     }
 
     /**
@@ -596,14 +596,14 @@ library SafeMath {
      * _Available since v3.4._
      */
     function tryMod(uint256 a, uint256 b)
-        internal
-        pure
-        returns (bool, uint256)
+    internal
+    pure
+    returns (bool, uint256)
     {
-        unchecked {
-            if (b == 0) return (false, 0);
-            return (true, a % b);
-        }
+    unchecked {
+        if (b == 0) return (false, 0);
+        return (true, a % b);
+    }
     }
 
     /**
@@ -696,10 +696,10 @@ library SafeMath {
         uint256 b,
         string memory errorMessage
     ) internal pure returns (uint256) {
-        unchecked {
-            require(b <= a, errorMessage);
-            return a - b;
-        }
+    unchecked {
+        require(b <= a, errorMessage);
+        return a - b;
+    }
     }
 
     /**
@@ -719,10 +719,10 @@ library SafeMath {
         uint256 b,
         string memory errorMessage
     ) internal pure returns (uint256) {
-        unchecked {
-            require(b > 0, errorMessage);
-            return a / b;
-        }
+    unchecked {
+        require(b > 0, errorMessage);
+        return a / b;
+    }
     }
 
     /**
@@ -745,10 +745,10 @@ library SafeMath {
         uint256 b,
         string memory errorMessage
     ) internal pure returns (uint256) {
-        unchecked {
-            require(b > 0, errorMessage);
-            return a % b;
-        }
+    unchecked {
+        require(b > 0, errorMessage);
+        return a % b;
+    }
     }
 }
 
@@ -776,8 +776,8 @@ interface IERC20 {
      * Emits a {Transfer} event.
      */
     function transfer(address recipient, uint256 amount)
-        external
-        returns (bool);
+    external
+    returns (bool);
 
     /**
      * @dev Returns the remaining number of tokens that `spender` will be
@@ -787,9 +787,9 @@ interface IERC20 {
      * This value changes when {approve} or {transferFrom} are called.
      */
     function allowance(address owner, address spender)
-        external
-        view
-        returns (uint256);
+    external
+    view
+    returns (uint256);
 
     /**
      * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.
@@ -955,11 +955,11 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * @dev See {IERC20-balanceOf}.
      */
     function balanceOf(address account)
-        public
-        view
-        virtual
-        override
-        returns (uint256)
+    public
+    view
+    virtual
+    override
+    returns (uint256)
     {
         return _balances[account];
     }
@@ -973,10 +973,10 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * - the caller must have a balance of at least `amount`.
      */
     function transfer(address recipient, uint256 amount)
-        public
-        virtual
-        override
-        returns (bool)
+    public
+    virtual
+    override
+    returns (bool)
     {
         _transfer(_msgSender(), recipient, amount);
         return true;
@@ -986,11 +986,11 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * @dev See {IERC20-allowance}.
      */
     function allowance(address owner, address spender)
-        public
-        view
-        virtual
-        override
-        returns (uint256)
+    public
+    view
+    virtual
+    override
+    returns (uint256)
     {
         return _allowances[owner][spender];
     }
@@ -1003,10 +1003,10 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * - `spender` cannot be the zero address.
      */
     function approve(address spender, uint256 amount)
-        public
-        virtual
-        override
-        returns (bool)
+    public
+    virtual
+    override
+    returns (bool)
     {
         _approve(_msgSender(), spender, amount);
         return true;
@@ -1037,9 +1037,9 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
             currentAllowance >= amount,
             "ERC20: transfer amount exceeds allowance"
         );
-        unchecked {
-            _approve(sender, _msgSender(), currentAllowance - amount);
-        }
+    unchecked {
+        _approve(sender, _msgSender(), currentAllowance - amount);
+    }
 
         return true;
     }
@@ -1057,9 +1057,9 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * - `spender` cannot be the zero address.
      */
     function increaseAllowance(address spender, uint256 addedValue)
-        public
-        virtual
-        returns (bool)
+    public
+    virtual
+    returns (bool)
     {
         _approve(
             _msgSender(),
@@ -1084,18 +1084,18 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * `subtractedValue`.
      */
     function decreaseAllowance(address spender, uint256 subtractedValue)
-        public
-        virtual
-        returns (bool)
+    public
+    virtual
+    returns (bool)
     {
         uint256 currentAllowance = _allowances[_msgSender()][spender];
         require(
             currentAllowance >= subtractedValue,
             "ERC20: decreased allowance below zero"
         );
-        unchecked {
-            _approve(_msgSender(), spender, currentAllowance - subtractedValue);
-        }
+    unchecked {
+        _approve(_msgSender(), spender, currentAllowance - subtractedValue);
+    }
 
         return true;
     }
@@ -1129,9 +1129,9 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
             senderBalance >= amount,
             "ERC20: transfer amount exceeds balance"
         );
-        unchecked {
-            _balances[sender] = senderBalance - amount;
-        }
+    unchecked {
+        _balances[sender] = senderBalance - amount;
+    }
         _balances[recipient] += amount;
 
         emit Transfer(sender, recipient, amount);
@@ -1178,9 +1178,9 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 
         uint256 accountBalance = _balances[account];
         require(accountBalance >= amount, "ERC20: burn amount exceeds balance");
-        unchecked {
-            _balances[account] = accountBalance - amount;
-        }
+    unchecked {
+        _balances[account] = accountBalance - amount;
+    }
         _totalSupply -= amount;
 
         emit Transfer(account, address(0), amount);
@@ -1254,24 +1254,296 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
     ) internal virtual {}
 }
 
-enum Directive {
-    CREATE_VALIDATOR, // unused
-    EDIT_VALIDATOR, // unused
-    DELEGATE,
-    UNDELEGATE,
-    COLLECT_REWARDS
+library EnumerableSet {
+    // To implement this library for multiple types with as little code
+    // repetition as possible, we write it in terms of a generic Set type with
+    // bytes32 values.
+    // The Set implementation uses private functions, and user-facing
+    // implementations (such as AddressSet) are just wrappers around the
+    // underlying Set.
+    // This means that we can only create new EnumerableSets for types that fit
+    // in bytes32.
+
+    struct Set {
+        // Storage of set values
+        bytes32[] _values;
+
+        // Position of the value in the `values` array, plus 1 because index 0
+        // means a value is not in the set.
+        mapping(bytes32 => uint256) _indexes;
+    }
+
+    /**
+     * @dev Add a value to a set. O(1).
+     *
+     * Returns true if the value was added to the set, that is if it was not
+     * already present.
+     */
+    function _add(Set storage set, bytes32 value) private returns (bool) {
+        if (!_contains(set, value)) {
+            set._values.push(value);
+            // The value is stored at length-1, but we add 1 to all indexes
+            // and use 0 as a sentinel value
+            set._indexes[value] = set._values.length;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @dev Removes a value from a set. O(1).
+     *
+     * Returns true if the value was removed from the set, that is if it was
+     * present.
+     */
+    function _remove(Set storage set, bytes32 value) private returns (bool) {
+        // We read and store the value's index to prevent multiple reads from the same storage slot
+        uint256 valueIndex = set._indexes[value];
+
+        if (valueIndex != 0) {// Equivalent to contains(set, value)
+            // To delete an element from the _values array in O(1), we swap the element to delete with the last one in
+            // the array, and then remove the last element (sometimes called as 'swap and pop').
+            // This modifies the order of the array, as noted in {at}.
+
+            uint256 toDeleteIndex = valueIndex - 1;
+            uint256 lastIndex = set._values.length - 1;
+
+            // When the value to delete is the last one, the swap operation is unnecessary. However, since this occurs
+            // so rarely, we still do the swap anyway to avoid the gas cost of adding an 'if' statement.
+
+            bytes32 lastvalue = set._values[lastIndex];
+
+            // Move the last value to the index where the value to delete is
+            set._values[toDeleteIndex] = lastvalue;
+            // Update the index for the moved value
+            set._indexes[lastvalue] = toDeleteIndex + 1;
+            // All indexes are 1-based
+
+            // Delete the slot where the moved value was stored
+            set._values.pop();
+
+            // Delete the index for the deleted slot
+            delete set._indexes[value];
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @dev Returns true if the value is in the set. O(1).
+     */
+    function _contains(Set storage set, bytes32 value) private view returns (bool) {
+        return set._indexes[value] != 0;
+    }
+
+    /**
+     * @dev Returns the number of values on the set. O(1).
+     */
+    function _length(Set storage set) private view returns (uint256) {
+        return set._values.length;
+    }
+
+    /**
+     * @dev Returns the value stored at position `index` in the set. O(1).
+    *
+    * Note that there are no guarantees on the ordering of values inside the
+    * array, and it may change when more values are added or removed.
+    *
+    * Requirements:
+    *
+    * - `index` must be strictly less than {length}.
+    */
+    function _at(Set storage set, uint256 index) private view returns (bytes32) {
+        require(set._values.length > index, "EnumerableSet: index out of bounds");
+        return set._values[index];
+    }
+
+    // Bytes32Set
+
+    struct Bytes32Set {
+        Set _inner;
+    }
+
+    /**
+     * @dev Add a value to a set. O(1).
+     *
+     * Returns true if the value was added to the set, that is if it was not
+     * already present.
+     */
+    function add(Bytes32Set storage set, bytes32 value) internal returns (bool) {
+        return _add(set._inner, value);
+    }
+
+    /**
+     * @dev Removes a value from a set. O(1).
+     *
+     * Returns true if the value was removed from the set, that is if it was
+     * present.
+     */
+    function remove(Bytes32Set storage set, bytes32 value) internal returns (bool) {
+        return _remove(set._inner, value);
+    }
+
+    /**
+     * @dev Returns true if the value is in the set. O(1).
+     */
+    function contains(Bytes32Set storage set, bytes32 value) internal view returns (bool) {
+        return _contains(set._inner, value);
+    }
+
+    /**
+     * @dev Returns the number of values in the set. O(1).
+     */
+    function length(Bytes32Set storage set) internal view returns (uint256) {
+        return _length(set._inner);
+    }
+
+    /**
+     * @dev Returns the value stored at position `index` in the set. O(1).
+    *
+    * Note that there are no guarantees on the ordering of values inside the
+    * array, and it may change when more values are added or removed.
+    *
+    * Requirements:
+    *
+    * - `index` must be strictly less than {length}.
+    */
+    function at(Bytes32Set storage set, uint256 index) internal view returns (bytes32) {
+        return _at(set._inner, index);
+    }
+
+    // AddressSet
+
+    struct AddressSet {
+        Set _inner;
+    }
+
+    /**
+     * @dev Add a value to a set. O(1).
+     *
+     * Returns true if the value was added to the set, that is if it was not
+     * already present.
+     */
+    function add(AddressSet storage set, address value) internal returns (bool) {
+        return _add(set._inner, bytes32(uint256(uint160(value))));
+    }
+
+    /**
+     * @dev Removes a value from a set. O(1).
+     *
+     * Returns true if the value was removed from the set, that is if it was
+     * present.
+     */
+    function remove(AddressSet storage set, address value) internal returns (bool) {
+        return _remove(set._inner, bytes32(uint256(uint160(value))));
+    }
+
+    /**
+     * @dev Returns true if the value is in the set. O(1).
+     */
+    function contains(AddressSet storage set, address value) internal view returns (bool) {
+        return _contains(set._inner, bytes32(uint256(uint160(value))));
+    }
+
+    /**
+     * @dev Returns the number of values in the set. O(1).
+     */
+    function length(AddressSet storage set) internal view returns (uint256) {
+        return _length(set._inner);
+    }
+
+    /**
+     * @dev Returns the value stored at position `index` in the set. O(1).
+    *
+    * Note that there are no guarantees on the ordering of values inside the
+    * array, and it may change when more values are added or removed.
+    *
+    * Requirements:
+    *
+    * - `index` must be strictly less than {length}.
+    */
+    function at(AddressSet storage set, uint256 index) internal view returns (address) {
+        return address(uint160(uint256(_at(set._inner, index))));
+    }
+
+
+    // UintSet
+
+    struct UintSet {
+        Set _inner;
+    }
+
+    /**
+     * @dev Add a value to a set. O(1).
+     *
+     * Returns true if the value was added to the set, that is if it was not
+     * already present.
+     */
+    function add(UintSet storage set, uint256 value) internal returns (bool) {
+        return _add(set._inner, bytes32(value));
+    }
+
+    /**
+     * @dev Removes a value from a set. O(1).
+     *
+     * Returns true if the value was removed from the set, that is if it was
+     * present.
+     */
+    function remove(UintSet storage set, uint256 value) internal returns (bool) {
+        return _remove(set._inner, bytes32(value));
+    }
+
+    /**
+     * @dev Returns true if the value is in the set. O(1).
+     */
+    function contains(UintSet storage set, uint256 value) internal view returns (bool) {
+        return _contains(set._inner, bytes32(value));
+    }
+
+    /**
+     * @dev Returns the number of values on the set. O(1).
+     */
+    function length(UintSet storage set) internal view returns (uint256) {
+        return _length(set._inner);
+    }
+
+    /**
+     * @dev Returns the value stored at position `index` in the set. O(1).
+    *
+    * Note that there are no guarantees on the ordering of values inside the
+    * array, and it may change when more values are added or removed.
+    *
+    * Requirements:
+    *
+    * - `index` must be strictly less than {length}.
+    */
+    function at(UintSet storage set, uint256 index) internal view returns (uint256) {
+        return uint256(_at(set._inner, index));
+    }
 }
+
+
+    enum Directive {
+        CREATE_VALIDATOR, // unused
+        EDIT_VALIDATOR, // unused
+        DELEGATE,
+        UNDELEGATE,
+        COLLECT_REWARDS
+    }
 
 abstract contract StakingPrecompilesSelectors {
     function Delegate(
         address delegatorAddress,
-        address validatorAddress,
+        address defaultValidator,
         uint256 amount
     ) public virtual;
 
     function Undelegate(
         address delegatorAddress,
-        address validatorAddress,
+        address defaultValidator,
         uint256 amount
     ) public virtual;
 
@@ -1282,51 +1554,51 @@ abstract contract StakingPrecompilesSelectors {
 
 contract StakingPrecompiles {
     // call opcode to stake ONE
-    function _delegate(address validatorAddress, uint256 amount)
-        internal
-        returns (uint256 result)
+    function _delegate(address defaultValidator, uint256 amount)
+    internal
+    returns (uint256 result)
     {
         bytes memory encodedInput = abi.encodeWithSelector(
             StakingPrecompilesSelectors.Delegate.selector,
             address(this),
-            validatorAddress,
+            defaultValidator,
             amount
         );
         assembly {
-            // we estimate a gas consumption of 25k per precompile
+        // we estimate a gas consumption of 25k per precompile
             result := call(
-                25000,
-                0xfc,
-                0x0,
-                add(encodedInput, 32),
-                mload(encodedInput),
-                mload(0x40),
-                0x20
+            25000,
+            0xfc,
+            0x0,
+            add(encodedInput, 32),
+            mload(encodedInput),
+            mload(0x40),
+            0x20
             )
         }
     }
 
     // call opcode to unstake ONE
-    function _undelegate(address validatorAddress, uint256 amount)
-        internal
-        returns (uint256 result)
+    function _undelegate(address defaultValidator, uint256 amount)
+    internal
+    returns (uint256 result)
     {
         bytes memory encodedInput = abi.encodeWithSelector(
             StakingPrecompilesSelectors.Undelegate.selector,
             address(this),
-            validatorAddress,
+            defaultValidator,
             amount
         );
         assembly {
-            // we estimate a gas consumption of 25k per precompile
+        // we estimate a gas consumption of 25k per precompile
             result := call(
-                25000,
-                0xfc,
-                0x0,
-                add(encodedInput, 32),
-                mload(encodedInput),
-                mload(0x40),
-                0x20
+            25000,
+            0xfc,
+            0x0,
+            add(encodedInput, 32),
+            mload(encodedInput),
+            mload(0x40),
+            0x20
             )
         }
     }
@@ -1338,15 +1610,15 @@ contract StakingPrecompiles {
             address(this)
         );
         assembly {
-            // we estimate a gas consumption of 25k per precompile
+        // we estimate a gas consumption of 25k per precompile
             result := call(
-                25000,
-                0xfc,
-                0x0,
-                add(encodedInput, 32),
-                mload(encodedInput),
-                mload(0x40),
-                0x20
+            25000,
+            0xfc,
+            0x0,
+            add(encodedInput, 32),
+            mload(encodedInput),
+            mload(0x40),
+            0x20
             )
         }
     }
@@ -1365,40 +1637,74 @@ contract StakingPrecompiles {
     }
 }
 
-interface IToken {
-    function mint(address _to, uint256 _amount) external;
-
-    function transfer(address _to, uint256 _amount) external returns (bool);
-
-    function balanceOf(address) external returns (uint256);
-}
-
-contract Main is
-    Ownable,
-    ReentrancyGuard,
-    StakingPrecompiles,
-    ERC20("Hermes Staked ONE", "hONE")
+contract MainMulti is
+Ownable,
+ReentrancyGuard,
+StakingPrecompiles,
+ERC20("Hermes Multi Staked ONE", "hmONE")
 {
     using SafeMath for uint256;
+    using EnumerableSet for EnumerableSet.AddressSet;
 
+    bool public testing;
     // used to hold the total of ONE deposited into the contract
     uint256 public balance;
+
+    struct ValidatorInfo {
+        address validator;
+        uint256 validatorAdded;
+        uint256 deposits;
+        uint256 lastDepositAmount;
+        uint256 lastDepositDate;
+        bool isEnabled;
+    }
+
+    mapping(address => ValidatorInfo) public validatorsByAddress;
+    EnumerableSet.AddressSet private allValidators;
+
+    // a list of all users that deposit into this contract
+    EnumerableSet.AddressSet private allDepositors;
+
+    struct DepositInfo {
+        address validator;
+        address user;
+        uint256 shares;
+        uint256 deposited;
+        uint256 datetime;
+
+    }
+
+    mapping(address => DepositInfo[]) public validatorDeposits;
+    mapping(address => uint) public balanceByAddress;
+    mapping(address => uint256) public withdrawTimestampAddress;
 
     // waiting room, user request undelegate and with next epoch to withdraw
     mapping(address => uint256) public _staked;
     mapping(address => uint256) public _stakedIn;
     mapping(address => uint256) public _stakedEpoch;
+
     uint256 public fee = 0; // 100=1%
     uint256 public totalRewardCollected;
     uint256 public totalFeeCollected;
     uint256 public minDelegate = 100 ether;
-    uint256 public withdrawTimestamp = 127 hours;
+    uint256 public withdrawTimestamp = 150 hours;
     uint256 public withdrawEpochs = 7;
 
+    uint256 public rewardStatsLastDeposit; // timestamp
+    uint256 public rewardStatsLastReward; // uint256 1283838834
+    uint256 public rewardStatsTimeInterval; // uint 19222
+    uint256 public rewardStatsBalance; // balance at this moment
+
+    // we discard nodes already elected from withdraw
+    uint256 public safeElectionThreshold = 100000 ether;
+
+    // user can't withdraw more than this, to prevent breaking validators
+    uint256 public safeWithdrawThreshold = 10000 ether;
+
     // the validator address where ONE should be staked
-    // address public validatorAddress = address(0xee0e4Cdc193367dd9482Ed4152444e1d8971a6B7); // hermes
-    address public validatorAddress =
-        address(0x588e2cda52B02a85d9dc3d150778183E14A078e8); // I Bless The Rains
+    // address public defaultValidator = address(0xee0e4Cdc193367dd9482Ed4152444e1d8971a6B7); // hermes
+    // address public defaultValidator = address(0x588e2cda52B02a85d9dc3d150778183E14A078e8); // I Bless The Rains
+    address public defaultValidator;
 
     address payable public feeAddress;
 
@@ -1419,22 +1725,143 @@ contract Main is
     event withdrawTimestampChanged(uint256 oldTimestamp, uint256 newTimestamp);
     event withdrawEpochsChanged(uint256 oldEpoch, uint256 newEpoch);
 
-    constructor(address _owner, address _feeAddress) {
-        feeAddress = payable(_feeAddress);
-        transferOwnership(_owner);
+    constructor(bool _testing, address hermes) {
+        testing = _testing;
+        feeAddress = payable(msg.sender);
+        defaultValidator = hermes;
+        // we default add Hermes validator
+        _add(hermes);
+        _set(hermes, true);
     }
 
-    modifier isMinimumDeposit(uint256 _amount) {
-        require(
-            _amount >= minDelegate,
-            "Can only delegate a minimum of 100 ONE"
-        );
-        _;
+    receive() external payable {
+        deposit();
+    }
+
+    event validatorAdded(address validator);
+
+    function setSafeElectionThreshold(uint value) public onlyOwner {
+
+        require(value < getMaxFromAllDeposits(), "cannot be greater than the maximum of validatorsByAddress[x].deposits");
+        safeElectionThreshold = value;
+    }
+
+    function getMaxFromAllDeposits() internal view returns (uint256) {
+
+        uint256 max = 0;
+        uint lowestBalance = type(uint).max;
+
+        for (uint i = 0; i < allValidators.length(); i++) {
+            address current = allValidators.at(i);
+
+            // this validator is not enabled
+            if (validatorsByAddress[current].isEnabled == false)
+                continue;
+
+            // validator deposit is high than current
+            if (validatorsByAddress[current].deposits >= lowestBalance)
+                continue;
+
+            // this validator has lowest possible balance
+            max.add(validatorsByAddress[current].deposits);
+        }
+
+        return max;
+
+    }
+
+    function setSafeWithdrawThreshold(uint value) public onlyOwner {
+        safeWithdrawThreshold = value;
+    }
+    function add(address validator) public onlyOwner {
+        _add(validator);
+    }
+    function _add(address validator) internal {
+        require(!allValidators.contains(validator), "add: validator already added");
+        allValidators.add(validator);
+        validatorsByAddress[validator] =
+        ValidatorInfo({
+        validator : validator,
+        validatorAdded : block.timestamp,
+        deposits : 0,
+        lastDepositAmount : 0,
+        lastDepositDate : 0,
+        isEnabled : false
+        });
+        emit validatorAdded(validator);
+    }
+
+    event validatorSet(address validator, bool enabled);
+
+    function set(address validator, bool enabled) public onlyOwner {
+        _set(validator, enabled);
+    }
+    function _set(address validator, bool enabled) internal {
+        require(allValidators.contains(validator), "set: validator not added");
+        validatorsByAddress[validator].isEnabled = enabled;
+        emit validatorSet(validator, enabled);
+    }
+
+    // we get the validator with lowest balance and lowest priority
+    // in the queue if not, we default to standard validator
+    function validatorLowestBalance() public view returns (address){
+
+        // uint lowestBalance = 99999999999999999 ether;
+        uint lowestBalance = type(uint).max;
+
+        address validator = defaultValidator;
+        for (uint i = 0; i < allValidators.length(); i++) {
+            address current = allValidators.at(i);
+
+            // this validator is not enabled
+            if (validatorsByAddress[current].isEnabled == false)
+
+                continue;
+
+            // validator deposit is high than current
+            if (validatorsByAddress[current].deposits >= lowestBalance)
+                continue;
+
+            // this validator has lowest possible balance
+            lowestBalance = validatorsByAddress[current].deposits;
+            validator = current;
+        }
+        return validator;
+    }
+
+
+    // we get the validator with highest balance and lowest priority
+    // in the queue if not, we default to standard validator
+    function validatorHighestBalance() public view returns (address){
+        uint lowestBalance = 0 ether;
+        address validator = defaultValidator;
+        for (uint i = 0; i < allValidators.length(); i++) {
+            address current = allValidators.at(i);
+
+            // this validator is not enabled
+            if (validatorsByAddress[current].isEnabled == false)
+                continue;
+
+            if (validatorsByAddress[current].deposits <= safeElectionThreshold)
+                continue;
+
+            // validator is high than current
+            if (validatorsByAddress[current].deposits <= lowestBalance)
+                continue;
+
+            // this validator has highest possible balance
+            lowestBalance = validatorsByAddress[current].deposits;
+            validator = current;
+        }
+        return validator;
     }
 
     function changeValidator(address newValidator) external onlyOwner {
-        emit validatorChanged(validatorAddress, newValidator);
-        validatorAddress = newValidator;
+        emit validatorChanged(defaultValidator, newValidator);
+        defaultValidator = newValidator;
+
+        _add(defaultValidator);
+        _set(defaultValidator, true);
     }
 
     function changeMinDelegate(uint256 _minDelegate) external onlyOwner {
@@ -1459,6 +1886,8 @@ contract Main is
     }
 
     function changeWithdrawTimestamp(uint256 _value) external onlyOwner {
+        require(_value < 12960000, "invalid timestamp. limit exceeded"); // 300 hours
+
         emit withdrawTimestampChanged(withdrawTimestamp, _value);
         withdrawTimestamp = _value;
     }
@@ -1467,11 +1896,6 @@ contract Main is
         emit withdrawEpochsChanged(withdrawEpochs, _value);
         withdrawEpochs = _value;
     }
-
-    uint256 public rewardStatsLastDeposit; // timestamp
-    uint256 public rewardStatsLastReward; // uint256 1283838834
-    uint256 public rewardStatsTimeInterval; // uint 19222
-    uint256 public rewardStatsBalance; // balance at this moment
 
     function collectRewards() internal returns (uint256) {
         uint256 balanceBefore = address(this).balance;
@@ -1485,8 +1909,8 @@ contract Main is
         if (block.timestamp - rewardStatsLastDeposit > 172800) {
             if (rewardStatsLastDeposit > 0) {
                 rewardStatsTimeInterval =
-                    block.timestamp -
-                    rewardStatsLastDeposit;
+                block.timestamp -
+                rewardStatsLastDeposit;
             }
             rewardStatsLastDeposit = block.timestamp;
             rewardStatsLastReward = rewardCollected;
@@ -1497,45 +1921,95 @@ contract Main is
 
     bool advanceEnabled = true;
     uint256 advanceFee = 10; // 0.1%
-    event Advance(
-        address user,
-        uint256 reward,
-        uint256 incentive,
-        uint256 balance
-    );
+    uint256 advanceFeePaid;
 
+    // reward deposit pool until we reach min deposit amount
+    uint pendingRewardDeposit;
+
+    function advance() public {
+        require(advanceEnabled, "!advanceEnabled");
+        uint256 value = collectRewards();
+        if (fee > 0) {
+            uint256 feeAmount = (value * fee) / 10000;
+            payable(feeAddress).call{value : feeAmount}("");
+            value = value - feeAmount;
+            totalFeeCollected += feeAmount;
+        }
+        uint incentive;
+        if (advanceFee > 0) {
+            incentive = (value * advanceFee) / 10000;
+            payable(msg.sender).call{value : incentive}("");
+            value = value - incentive;
+            advanceFeePaid += incentive;
+        }
+        pendingRewardDeposit += value;
+        uint256 result;
+        if (pendingRewardDeposit >= minDelegate) {
+            result = _delegate(defaultValidator, pendingRewardDeposit);
+            pendingRewardDeposit = 0;
+            // we reset pending reward pool
+        }
+    }
 
     // Enter the staking. Pay some sONE. Earn some shares.
     // Locks ONE and mints sONE
-    function deposit() public payable nonReentrant isMinimumDeposit(msg.value) {
-        uint256 rewardCollected = collectRewards();
+    function deposit() public payable {
         uint256 value = msg.value;
         if (fee > 0) {
             uint256 feeAmount = (value * fee) / 10000;
-            (bool success, ) = payable(feeAddress).call{value: feeAmount}("");
-            require(success, "err paying fee");
+            payable(feeAddress).call{value : feeAmount}("");
             value = value - feeAmount;
             totalFeeCollected += feeAmount;
         }
         // Gets the amount of sONE in existence
         uint256 supply = totalSupply();
 
+        uint shares;
         // If no sONE exists, mint it 1:1 to the amount put in
         if (supply == 0 || balance == 0) {
-            _mint(msg.sender, value);
+            shares = value;
+        } else {
+            // Calculate and mint the amount of sONE the ONE is worth. The ratio will change overtime, as sONE is burned/minted and ONE deposited + gained from fees / withdrawn.
+            shares = (value * supply) / balance;
         }
-        // Calculate and mint the amount of sONE the ONE is worth. The ratio will change overtime, as sONE is burned/minted and ONE deposited + gained from fees / withdrawn.
-        else {
-            uint256 sONE = (value * supply) / balance;
-            _mint(msg.sender, sONE);
-        }
-        balance += value;
-        // Lock the ONE in the contract (deposited+rewards)
-        uint256 stakeAmount = value + rewardCollected;
-        uint256 result = _delegate(validatorAddress, stakeAmount);
-        emit Deposit(msg.sender, stakeAmount, validatorAddress, result);
-    }
+        _mint(msg.sender, shares);
 
+        // set contract global balance
+        balance += value;
+
+        address validator = validatorLowestBalance();
+
+        // Withdraw info
+        withdrawTimestampAddress[msg.sender] = withdrawTimestamp;
+
+        // update validator metadata
+        validatorsByAddress[validator].deposits += value;
+        validatorsByAddress[validator].lastDepositAmount = value;
+        validatorsByAddress[validator].lastDepositDate = block.timestamp;
+
+        // store this user to our deposit deposit list, for easy of use
+        allDepositors.add(msg.sender);
+
+        // store this deposit ticket
+        validatorDeposits[validator].push(
+            DepositInfo({
+        validator : validator,
+        user : msg.sender,
+        shares : shares,
+        deposited : value,
+        datetime : block.timestamp
+        }));
+
+        // prevent trying to stake bellow min amount (because of fee, if any)
+        require(
+            value >= minDelegate,
+            "Invalid ONE amount"
+        );
+        uint256 result = _delegate(validator, value);
+        require(testing || result>0, "!_delegate");
+        emit Deposit(msg.sender, value, validator, result);
+
+    }
     // auxiliary method to easy unstake all balance
     function unstakeAll() external {
         unstake(balanceOf(msg.sender));
@@ -1543,9 +2017,9 @@ contract Main is
 
     // Leave the staking.
     // Unlocks the staked + gained ONE and burns sONE
-    function unstake(uint256 _share) public nonReentrant {
+    function unstake(uint256 _share) public {
         require(_share > 0, "Invalid sONE amount");
-
+        address validator = validatorHighestBalance();
         // Gets the amount of sONE in existence
         uint256 supply = totalSupply();
 
@@ -1553,15 +2027,18 @@ contract Main is
         uint256 ONE = (balance * _share) / supply;
         balance -= ONE;
         _burn(msg.sender, _share);
+        require(ONE <= safeWithdrawThreshold, "withdraw too big");
 
         // unlock the ONE in the contract
-        uint256 status = _undelegate(validatorAddress, ONE);
+        uint256 status = _undelegate(validator, ONE);
+        require(testing || status>0, "!_undelegate");
 
         // store amount in waiting room until epoch unlock
         _staked[msg.sender] += ONE;
         _stakedIn[msg.sender] = block.timestamp;
         _stakedEpoch[msg.sender] = epoch();
         emit Unstake(msg.sender, ONE, _share, status);
+
     }
 
     // after user waited epoch interval, user can withdraw funds from contract
@@ -1570,24 +2047,34 @@ contract Main is
         require(status, reason);
         _staked[msg.sender] -= _amount;
         // send ONE to user
-        (bool success, ) = payable(msg.sender).call{value: _amount}("");
+        (bool success,) = payable(msg.sender).call{value : _amount}("");
         emit Withdraw(msg.sender, _amount);
         require(success, "Withdraw transfer failed");
     }
 
     // view to be used on interface to know if user can withdraw funds
     function canWithdraw(address user, uint256 _balance)
-        public
-        view
-        returns (bool allowedToWithdraw, string memory Reason)
+    public
+    view
+    returns (bool allowedToWithdraw, string memory Reason)
     {
+
+        uint256 withdrawTimestamp_ = withdrawTimestamp;
+
+        if(withdrawTimestampAddress[user] > 0)
+            withdrawTimestamp_ = withdrawTimestampAddress[user];
+
+
         if (_balance > _staked[user])
             return (false, "User has insufficient balance un-staked.");
-        if (_stakedIn[user] + withdrawTimestamp > block.timestamp)
+
+        if (_stakedIn[user] + withdrawTimestamp_ > block.timestamp)
             return (false, "Time has not passed");
+
+
         if (_stakedEpoch[user] + withdrawEpochs > epoch())
-            // TODO:timelock the epoch change?
-            // owner could frontrun transactions by changing epoch & withdrawing
+        // TODO:timelock the epoch change?
+        // owner could frontrun transactions by changing epoch & withdrawing
             return (false, "Epoch has not passed");
         if (_balance > address(this).balance)
             return (false, "Contract has no balance.");
@@ -1606,4 +2093,23 @@ contract Main is
     function updateEnableAdvance(bool _advance) external onlyOwner {
         advanceEnabled = _advance;
     }
+
+
+    // in case a delegation fail and balance stay in the contract, admin
+    // can force the delegation again.
+    function adminForceDelegation(address validator, uint value) public onlyOwner {
+        uint256 result = _delegate(validator, value);
+        emit Deposit(msg.sender, value, validator, result);
+        require(result>0, "adminForceDelegation");
+    }
+    // in case a un-delegation fail and balance stay in the delegation, admin
+    // can force the un-delegation again.
+    function adminForceUnDelegation(address validator, uint ONE) public onlyOwner {
+        // unlock the ONE in the contract
+        uint256 status = _undelegate(validator, ONE);
+        require(status>0, "adminForceUnDelegation");
+    }
+
 }
+
+

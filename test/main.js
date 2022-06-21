@@ -31,8 +31,8 @@ describe("main", function () {
             noneAddress = none.address,
             aliceAddress = alice.address,
             bobAddress = bob.address;
-        const _main = await ethers.getContractFactory("Main");
-        main = await _main.deploy(dev.address, dev.address);
+        const _main = await ethers.getContractFactory("MainMulti");
+        main = await _main.deploy(true, dev.address);
         await main.deployed();
         postDeployDevBalance = await main.provider.getBalance(dev.address);
     });
@@ -41,7 +41,7 @@ describe("main", function () {
     describe("Check for proper deposit", () => {
         it("Should only allow deposit greater than minDelegate", async () => {
             // Will revert if deposit is less thatn minimum required.
-            await expectRevert(main.connect(alice).deposit({ value: FIVE }), 'Can only delegate a minimum of 100 ONE');
+            await expectRevert(main.connect(alice).deposit({ value: FIVE }), 'Invalid ONE amount');
         });
     });
 
@@ -71,15 +71,45 @@ describe("main", function () {
         });
 
         it("Should emit an event when validator address is changed", async () => {
-            const validatorAddress = await main.validatorAddress();
-            await expect(main.changeValidator(alice.address)).to.emit(main, "validatorChanged").withArgs(validatorAddress, alice.address);
+            const defaultValidator = await main.defaultValidator();
+            await expect(main.changeValidator(alice.address)).to.emit(main, "validatorChanged").withArgs(defaultValidator, alice.address);
         });
-        //TODO: add event test for withdrawEpochsChanged
-        //TODO: add event test for withdrawTimestampChanged
-        //TODO: add event test for CollectReward
-        //TODO: add event test for Withdraw
-        //TODO: add event test for Unstake
-        //TODO: add event test for deposit
+
+        it("Should emit an withdrawEpochsChanged event when the epoch of withdraw has changed", async () => {
+            const now = await main.withdrawEpochs()
+            await expect(main.changeWithdrawEpoch(now)).to.emit(main, "withdrawEpochsChanged").withArgs(now, now);
+        });
+
+        it("Should emit an withdrawTimestampChanged event when the timestamp of withdraw has changed", async () => {
+            const now = await main.withdrawTimestamp()
+            await expect(main.changeWithdrawTimestamp(now)).to.emit(main, "withdrawTimestampChanged").withArgs(now, now);
+        });
+
+        it("Should emit an CollectReward event when a deposit is made", async () => {
+            await expect(await main.advance()).to.emit(main, "CollectReward");
+        });
+
+        it("Should emit an Withdraw event when a withdraw is made", async () => {
+
+             await main.changeWithdrawEpoch(0)
+             await expect(main.withdrawAll()).to.emit(main, "Withdraw");
+        });
+
+        it("Should emit an Unstake event when a Unstake is made", async () => {
+            await main.connect(dev).deposit({ value: ONE_H });
+            const balance = await main.balanceOf(dev.address);
+            await expect(main.unstake(balance)).to.emit(main, "Unstake");
+        });
+
+        it("Should emit an Deposit event when a deposit is made", async () => {
+            await expect(main.connect(alice).deposit({ value: ONE_H })).to.emit(main, "Deposit");
+        });
+
+        it("call advance", async () => {
+            await main.advance();
+        });
+
+
 
     });
 
@@ -103,7 +133,7 @@ describe("main", function () {
         });
 
         xit("Contract balance should be zero", async function () {
-            // Check contract balance 
+            // Check contract balance
             let balance = parseInt(fromWei(await main.provider.getBalance(main.address)));
             expect(balance).to.be.eq(0);
         });

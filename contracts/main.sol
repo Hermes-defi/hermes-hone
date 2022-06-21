@@ -1661,6 +1661,7 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
 
     mapping(address => ValidatorInfo) public validatorsByAddress;
     EnumerableSet.AddressSet private allValidators;
+    address[] allValidatorList;
 
     // a list of all users that deposit into this contract
     EnumerableSet.AddressSet private allDepositors;
@@ -1778,6 +1779,7 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
     }
     function _add(address validator) internal {
         require(!allValidators.contains(validator), "add: validator already added");
+        allValidatorList.push(validator);
         allValidators.add(validator);
         validatorsByAddress[validator] =
         ValidatorInfo({

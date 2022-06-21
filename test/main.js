@@ -64,6 +64,10 @@ describe("main", function () {
         main = await _main.deploy(true, dev.address);
         await main.deployed();
         postDeployDevBalance = await main.provider.getBalance(dev.address);
+        await main.add(userAddress);
+        await main.add(noneAddress);
+        await main.set(userAddress,true);
+        await main.set(noneAddress,true);
     });
 
 
@@ -81,9 +85,6 @@ describe("main", function () {
 
         let contractBalance;
         let aliceInitialBalance;
-        let bobInitialBalance
-        let aliceDepositGasCost;
-        let bobDepositGasCost;
 
         it("At least two users deposit.", async () => {
             // contract balance should be zero
@@ -92,14 +93,20 @@ describe("main", function () {
 
             // alice can deposit 5 ONE and receive 5 sONE.
             aliceInitialBalance = ethers.BigNumber.from(await main.provider.getBalance(alice.address));
+
             await main.connect(alice).deposit({ value: ONE_H });
             assert.equal(await main.balanceOf(alice.address), ONE_H);
+
+            let validator = (await main.validatorLowestBalance());
+            console.log('validatorLowestBalance', validator );
+            // console.log('validatorsByAddress', (await main.validatorsByAddress(validator)) );
 
             contractBalance = await main.provider.getBalance(main.address);
             assert.equal(contractBalance, ONE_H);
 
             await main.connect(bob).deposit({ value: ONE_H });
             assert.equal(await main.balanceOf(bob.address), ONE_H);
+            console.log('validatorLowestBalance', (await main.validatorLowestBalance()) );
 
             contractBalance = await main.provider.getBalance(main.address);
             assert.equal(contractBalance, TWO_H);

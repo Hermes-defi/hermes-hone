@@ -41,7 +41,7 @@ describe("main", function () {
     describe("Check for proper deposit", () => {
         it("Should only allow deposit greater than minDelegate", async () => {
             // Will revert if deposit is less thatn minimum required.
-            await expectRevert(main.connect(alice).deposit({ value: FIVE }), 'Invalid ONE amount set, send more ONE');
+            await expectRevert(main.connect(alice).deposit({ value: FIVE }), 'Invalid ONE amount');
         });
     });
 
@@ -74,42 +74,42 @@ describe("main", function () {
             const defaultValidator = await main.defaultValidator();
             await expect(main.changeValidator(alice.address)).to.emit(main, "validatorChanged").withArgs(defaultValidator, alice.address);
         });
-       
-        it("Should emit an withdrawEpochsChanged event when the epoch of withdraw has changed", async () => {                                              
+
+        it("Should emit an withdrawEpochsChanged event when the epoch of withdraw has changed", async () => {
             const now = await main.withdrawEpochs()
             await expect(main.changeWithdrawEpoch(now)).to.emit(main, "withdrawEpochsChanged").withArgs(now, now);
         });
 
-        it("Should emit an withdrawTimestampChanged event when the timestamp of withdraw has changed", async () => {                                              
+        it("Should emit an withdrawTimestampChanged event when the timestamp of withdraw has changed", async () => {
             const now = await main.withdrawTimestamp()
             await expect(main.changeWithdrawTimestamp(now)).to.emit(main, "withdrawTimestampChanged").withArgs(now, now);
         });
 
-        it("Should emit an CollectReward event when a deposit is made", async () => {                           
+        it("Should emit an CollectReward event when a deposit is made", async () => {
             await expect(await main.advance()).to.emit(main, "CollectReward");
         });
 
-        it("Should emit an Withdraw event when a withdraw is made", async () => {   
-            
+        it("Should emit an Withdraw event when a withdraw is made", async () => {
+
              await main.changeWithdrawEpoch(0)
              await expect(main.withdrawAll()).to.emit(main, "Withdraw");
         });
 
-        it("Should emit an Unstake event when a Unstake is made", async () => {                                       
+        it("Should emit an Unstake event when a Unstake is made", async () => {
             await main.connect(dev).deposit({ value: ONE_H });
-            const balance = await main.balanceOf(dev.address);            
+            const balance = await main.balanceOf(dev.address);
             await expect(main.unstake(balance)).to.emit(main, "Unstake");
         });
 
-        it("Should emit an Deposit event when a deposit is made", async () => {    
+        it("Should emit an Deposit event when a deposit is made", async () => {
             await expect(main.connect(alice).deposit({ value: ONE_H })).to.emit(main, "Deposit");
         });
 
-        it("Should emit an Advance event when a advance is called", async () => {    
-            await expect(main.advance()).to.emit(main, "Advance");
+        it("call advance", async () => {
+            await main.advance();
         });
-           
-           
+
+
 
     });
 

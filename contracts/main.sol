@@ -1670,19 +1670,19 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
         address user;
         uint256 shares;
         uint256 deposited;
-        uint256 datetime;        
+        uint256 datetime;
 
     }
 
     mapping(address => DepositInfo[]) public validatorDeposits;
     mapping(address => uint) public balanceByAddress;
-    mapping(address => uint256) public withdrawTimestampAddress;    
+    mapping(address => uint256) public withdrawTimestampAddress;
 
     // waiting room, user request undelegate and with next epoch to withdraw
     mapping(address => uint256) public _staked;
     mapping(address => uint256) public _stakedIn;
     mapping(address => uint256) public _stakedEpoch;
-    
+
     uint256 public fee = 0; // 100=1%
     uint256 public totalRewardCollected;
     uint256 public totalFeeCollected;
@@ -1749,7 +1749,7 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
     function getMaxFromAllDeposits() internal view returns (uint256) {
 
         uint256 max = 0;
-        uint lowestBalance = type(uint).max;        
+        uint lowestBalance = type(uint).max;
 
         for (uint i = 0; i < allValidators.length(); i++) {
             address current = allValidators.at(i);
@@ -1859,7 +1859,7 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
     function changeValidator(address newValidator) external onlyOwner {
         emit validatorChanged(defaultValidator, newValidator);
         defaultValidator = newValidator;
-        
+
         _add(defaultValidator);
         _set(defaultValidator, true);
     }
@@ -1923,8 +1923,6 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
     uint256 advanceFee = 10; // 0.1%
     uint256 advanceFeePaid;
 
-    event Advance(address user, uint256 reward, uint256 incentive, uint256 balance, uint256 result);
-
     // reward deposit pool until we reach min deposit amount
     uint pendingRewardDeposit;
 
@@ -1933,16 +1931,14 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
         uint256 value = collectRewards();
         if (fee > 0) {
             uint256 feeAmount = (value * fee) / 10000;
-            (bool success,) = payable(feeAddress).call{value : feeAmount}("");
-            require(success, "err paying fee");
+            payable(feeAddress).call{value : feeAmount}("");
             value = value - feeAmount;
             totalFeeCollected += feeAmount;
         }
         uint incentive;
         if (advanceFee > 0) {
             incentive = (value * advanceFee) / 10000;
-            (bool success,) = payable(msg.sender).call{value : incentive}("");
-            require(success, "err paying advance fee");
+            payable(msg.sender).call{value : incentive}("");
             value = value - incentive;
             advanceFeePaid += incentive;
         }
@@ -1953,7 +1949,6 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
             pendingRewardDeposit = 0;
             // we reset pending reward pool
         }
-        emit Advance(msg.sender, value, incentive, pendingRewardDeposit, result);
     }
 
     // Enter the staking. Pay some sONE. Earn some shares.
@@ -1962,8 +1957,7 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
         uint256 value = msg.value;
         if (fee > 0) {
             uint256 feeAmount = (value * fee) / 10000;
-            (bool success,) = payable(feeAddress).call{value : feeAmount}("");
-            require(success, "err paying fee");
+            payable(feeAddress).call{value : feeAmount}("");
             value = value - feeAmount;
             totalFeeCollected += feeAmount;
         }
@@ -1999,17 +1993,17 @@ ERC20("Hermes Multi Staked ONE", "hmONE")
         // store this deposit ticket
         validatorDeposits[validator].push(
             DepositInfo({
-                validator : validator,
-                user : msg.sender,
-                shares : shares,
-                deposited : value,
-                datetime : block.timestamp
+        validator : validator,
+        user : msg.sender,
+        shares : shares,
+        deposited : value,
+        datetime : block.timestamp
         }));
 
         // prevent trying to stake bellow min amount (because of fee, if any)
         require(
             value >= minDelegate,
-            "Invalid ONE amount set, send more ONE"
+            "Invalid ONE amount"
         );
         uint256 result = _delegate(validator, value);
         require(testing || result>0, "!_delegate");
